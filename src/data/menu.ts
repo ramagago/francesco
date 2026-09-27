@@ -7,8 +7,12 @@ export type MenuItem = {
 
 export type MenuGroup = {
   label?: string;
+  /** `item` usa el mismo tamaño que un plato, como Europeo salado. */
+  labelStyle?: "item";
   note?: string;
   items?: MenuItem[];
+  /** Apila los subgrupos en una sola columna. */
+  stack?: boolean;
   groups?: MenuGroup[];
 };
 
@@ -32,69 +36,79 @@ export const menu: MenuSection[] = [
     split: true,
     groups: [
       {
-        label: "(cafeteria)",
-        items: [
-          { name: "Espresso", price: 180 },
-          { name: "Lungo", price: 190 },
-          { name: "Doble ristretto", price: 200 },
-          { name: "Cortado", price: 210 },
-          { name: "Macchiato", price: 190 },
-          { name: "Macchiato doble", price: 210 },
-          { name: "Americano", price: 190 },
-          { name: "Espresso doble", price: 210 },
-          { name: "Latte", price: 240 },
-          { name: "Cappuccino", price: 240 },
-          { name: "Flat white", price: 260 },
-          { name: "Mocaccino", price: 260 },
-          { name: "Lagrima", price: 210 },
-          { name: "Cappuccino XL", price: 260 },
-          { name: "Latte XL", price: 260 },
-          { name: "Flat white XL", price: 290 },
-          { name: "Mocaccino XL", price: 290 },
-        ],
-      },
-      {
-        label: "(Iced)",
-        items: [
-          { name: "Iced latte", price: 260 },
-          { name: "Iced flat white", price: 280 },
-          { name: "Iced americano", price: 190 },
-          { name: "Iced Matcha latte", price: 260 },
-          { name: "Iced Moca", price: 270 },
-          { name: "Iced lagrima", price: 210 },
-        ],
-      },
-      {
-        label: "(leches vegetales)",
-        items: [
-          { name: "Leche de avena", price: 40 },
-          { name: "Leche de almendras", price: 40 },
-        ],
-      },
-      {
-        label: "(otras bebidas)",
-        items: [
-          { name: "Submarino", price: 240, note: "*de chocolate belga" },
-          { name: "Matcha latte", price: 260 },
-          { name: "Matcha latte XL", price: 290 },
-          { name: "Te Twinings", price: 180 },
-          { name: "Te en hebras", price: 210 },
-          { name: "Té verde frío con hibiscus", price: 220 },
-          { name: "Té negro frío", price: 220 },
-          { name: "Té verde frío", price: 220 },
-          { name: "Exprimido natural de naranja", price: 260 },
+        stack: true,
+        groups: [
           {
-            name: "Jugos en botella",
-            price: 350,
-            note: "*variedad de jugos envasados",
+            label: "(cafeteria)",
+            items: [
+              { name: "Espresso", price: 180 },
+              { name: "Lungo", price: 190 },
+              { name: "Doble ristretto", price: 200 },
+              { name: "Cortado", price: 210 },
+              { name: "Macchiato", price: 190 },
+              { name: "Macchiato doble", price: 210 },
+              { name: "Americano", price: 190 },
+              { name: "Espresso doble", price: 210 },
+              { name: "Latte", price: 240 },
+              { name: "Cappuccino", price: 240 },
+              { name: "Flat white", price: 260 },
+              { name: "Mocaccino", price: 260 },
+              { name: "Lagrima", price: 210 },
+              { name: "Cappuccino XL", price: 260 },
+              { name: "Latte XL", price: 260 },
+              { name: "Flat white XL", price: 290 },
+              { name: "Mocaccino XL", price: 290 },
+            ],
           },
           {
-            name: "Limonada",
-            price: 250,
-            note: "*con menta y jengibre sin azúcar",
+            label: "(Iced)",
+            items: [
+              { name: "Iced latte", price: 260 },
+              { name: "Iced flat white", price: 280 },
+              { name: "Iced americano", price: 190 },
+              { name: "Iced Matcha latte", price: 260 },
+              { name: "Iced Moca", price: 270 },
+              { name: "Iced lagrima", price: 210 },
+            ],
           },
-          { name: "Coca cola", price: 190 },
-          { name: "Agua", price: 170 },
+        ],
+      },
+      {
+        stack: true,
+        groups: [
+          {
+            label: "(leches vegetales)",
+            items: [
+              { name: "Leche de avena", price: 40 },
+              { name: "Leche de almendras", price: 40 },
+            ],
+          },
+          {
+            label: "(otras bebidas)",
+            items: [
+              { name: "Submarino", price: 240, note: "*de chocolate belga" },
+              { name: "Matcha latte", price: 260 },
+              { name: "Matcha latte XL", price: 290 },
+              { name: "Te Twinings", price: 180 },
+              { name: "Te en hebras", price: 210 },
+              { name: "Té verde frío con hibiscus", price: 220 },
+              { name: "Té negro frío", price: 220 },
+              { name: "Té verde frío", price: 220 },
+              { name: "Exprimido natural de naranja", price: 260 },
+              {
+                name: "Jugos en botella",
+                price: 350,
+                note: "*variedad de jugos envasados",
+              },
+              {
+                name: "Limonada",
+                price: 250,
+                note: "*con menta y jengibre sin azúcar",
+              },
+              { name: "Coca cola", price: 190 },
+              { name: "Agua", price: 170 },
+            ],
+          },
         ],
       },
     ],
@@ -268,6 +282,7 @@ export const menu: MenuSection[] = [
     groups: [
       {
         label: "(huevos - omelette)",
+        stack: true,
         groups: [
           {
             items: [
@@ -287,6 +302,7 @@ export const menu: MenuSection[] = [
           },
           {
             label: "Omelette con ensalada:",
+            labelStyle: "item",
             note: "*Ensalada: verdes, frutos secos y tomate cherry",
             items: [
               { name: "Relleno de queso + ensalada", price: 460 },

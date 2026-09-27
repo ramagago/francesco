@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MenuGroupView } from "@/components/menu-view";
+import { SectionNav } from "@/components/section-nav";
+import { SiteLinks } from "@/components/site-links";
 import { menu } from "@/data/menu";
 import { site } from "@/data/site";
 
@@ -12,47 +14,17 @@ export const metadata: Metadata = {
 export default function MenuPage() {
   return (
     <div className="flex flex-1 flex-col">
-      <header className="sticky top-0 z-10 border-b border-line bg-background/90 backdrop-blur-md">
+      <header className="sticky top-0 z-10 bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
           <Link
             href="/"
-            className="font-serif text-sm tracking-[0.22em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sea"
+            className="font-serif text-sm tracking-[0.22em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
           >
             {site.mark}
           </Link>
-          <nav aria-label="Sitio" className="flex gap-5 text-sm text-muted">
-            <a
-              className="transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sea"
-              href={site.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Instagram
-            </a>
-            <a
-              className="transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sea"
-              href={site.locationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ubicación
-            </a>
-          </nav>
+          <SiteLinks />
         </div>
-        <nav
-          aria-label="Secciones"
-          className="mx-auto flex w-full max-w-3xl gap-2 overflow-x-auto px-5 pb-3 sm:px-8"
-        >
-          {menu.map((section) => (
-            <a
-              key={section.id}
-              href={`#${section.id}`}
-              className="shrink-0 border border-line bg-paper px-3 py-1.5 text-sm text-foreground transition-colors hover:border-sea hover:text-sea focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea"
-            >
-              {section.title}
-            </a>
-          ))}
-        </nav>
+        <SectionNav sections={menu.map((section) => ({ id: section.id, title: section.title }))} />
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-5 py-12 sm:px-8 sm:py-16">
@@ -81,7 +53,12 @@ export default function MenuPage() {
               >
                 {section.groups.map((group) => (
                   <MenuGroupView
-                    key={group.label ?? group.items?.[0]?.name ?? section.id}
+                    key={
+                      group.label ??
+                      group.items?.[0]?.name ??
+                      group.groups?.[0]?.label ??
+                      section.id
+                    }
                     group={group}
                   />
                 ))}

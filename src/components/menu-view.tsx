@@ -29,15 +29,23 @@ function MenuItemRow({ item }: { item: MenuItem }) {
   );
 }
 
-function GroupLabel({ label }: { label: string }) {
-  const isMarker = label.startsWith("(");
+function GroupLabel({
+  label,
+  labelStyle,
+}: {
+  label: string;
+  labelStyle?: "item";
+}) {
+  const isMarker = labelStyle !== "item" && label.startsWith("(");
 
   return (
     <h3
       className={
-        isMarker
-          ? "text-sm tracking-wide text-sea"
-          : "font-serif text-xl leading-tight italic"
+        labelStyle === "item"
+          ? "text-[15px] leading-snug"
+          : isMarker
+            ? "text-sm tracking-wide text-sea"
+            : "font-serif text-xl leading-tight italic"
       }
     >
       {label}
@@ -47,8 +55,10 @@ function GroupLabel({ label }: { label: string }) {
 
 export function MenuGroupView({ group }: { group: MenuGroup }) {
   return (
-    <section className="space-y-4">
-      {group.label ? <GroupLabel label={group.label} /> : null}
+    <section className={group.labelStyle === "item" ? "space-y-3" : "space-y-4"}>
+      {group.label ? (
+        <GroupLabel label={group.label} labelStyle={group.labelStyle} />
+      ) : null}
       {group.items ? (
         <ul className="space-y-3">
           {group.items.map((item) => (
@@ -58,7 +68,7 @@ export function MenuGroupView({ group }: { group: MenuGroup }) {
       ) : null}
       {group.note ? <p className="text-sm text-muted">{group.note}</p> : null}
       {group.groups ? (
-        <div className="grid gap-8 sm:grid-cols-2">
+        <div className={group.stack ? "grid gap-6" : "grid gap-8 sm:grid-cols-2"}>
           {group.groups.map((nested) => (
             <MenuGroupView
               key={nested.label ?? nested.items?.[0]?.name}
